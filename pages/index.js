@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import curatedImages from "../services/curated_images";
 import { useEffect, useState } from "react";
+import Components from "../components/Components";
 
 const Home = ({ data }) => {
   const [viewablePhotos, setViewablePhotos] = useState(data);
@@ -18,14 +19,9 @@ const Home = ({ data }) => {
 
   return (
     <div className={styles.container}>
-      Here for Rokt
-      <br />
-      {viewablePhotos.map((photo) => (
-        <>
-          <img src={photo.src.small}></img>
-        </>
-      ))}
-      <button onClick={getCuratedPhotos}>get Photos</button>
+      <Components.PhotoGallery
+        listOfPhotos={viewablePhotos}
+      ></Components.PhotoGallery>
     </div>
   );
 };
