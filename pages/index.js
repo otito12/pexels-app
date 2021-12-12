@@ -18,7 +18,8 @@ const Home = ({ data }) => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div>
+      <Components.PexelAppBar></Components.PexelAppBar>
       <Components.PhotoGallery
         listOfPhotos={viewablePhotos}
       ></Components.PhotoGallery>
