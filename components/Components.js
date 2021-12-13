@@ -1,11 +1,11 @@
-import { PhotoCard } from "./photoCard";
-import { PhotoGallery } from "./photoGallery";
 import { PexelAppBar } from "./PexelAppBar";
+import { PhotoList } from "./PhotoList";
+import { BoardSpeedDial } from "./BoardSpeedDial";
 
 const Components = {
-  PhotoCard,
-  PhotoGallery,
   PexelAppBar,
+  PhotoList,
+  BoardSpeedDial,
 };
 
 export default Components;

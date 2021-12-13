@@ -20,9 +20,10 @@ const Home = ({ data }) => {
   return (
     <div>
       <Components.PexelAppBar></Components.PexelAppBar>
-      <Components.PhotoGallery
+      <Components.BoardSpeedDial></Components.BoardSpeedDial>
+      <Components.PhotoList
         listOfPhotos={viewablePhotos}
-      ></Components.PhotoGallery>
+      ></Components.PhotoList>
     </div>
   );
 };
