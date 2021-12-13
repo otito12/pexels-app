@@ -6,12 +6,12 @@ import { useEffect, useState } from "react";
 import Components from "../components/Components";
 
 const Home = ({ data }) => {
-  const [viewablePhotos, setViewablePhotos] = useState(data);
+  const [viewablePhotos, setViewablePhotos] = useState([]);
   const [numPhotosPerPage, setnumPhotos] = useState(10);
 
-  const getCuratedPhotos = async () => {
-    curatedImages.getCuratedPhoto(numPhotosPerPage, 1, setViewablePhotos);
-  };
+  useEffect(() => {
+    curatedImages.getCuratedPhoto(10,1,setViewablePhotos)
+  }, [])
 
   return (
     <div>

@@ -98,6 +98,7 @@ export const PhotoList = (props) => {
 
       <Grid container justifyContent="center" sx={{ paddingBottom: "20px" }}>
         <Grid item>
+          {/* {currentPage} */}
           <Pagination
             count={10}
             color="secondary"
