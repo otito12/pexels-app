@@ -4,14 +4,17 @@ const client = createClient(
 );
 
 const getCuratedPhotos = async (
-  numPages = 10,
+  numPerPage = 10,
+  pageNumber = 1,
   setViewablePhotos = (x) => {}
 ) => {
-  return client.photos.curated({ per_page: numPages }).then((photos) => {
-    // console.log(photos.photos);
-    setViewablePhotos(photos.photos);
-    return photos.photos;
-  });
+  return client.photos
+    .curated({ page: pageNumber, per_page: numPerPage })
+    .then((photos) => {
+      // console.log(photos.photos);
+      setViewablePhotos(photos.photos);
+      return photos.photos;
+    });
 };
 
 const curatedPhotoService = {

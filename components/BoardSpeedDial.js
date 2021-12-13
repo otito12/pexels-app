@@ -37,7 +37,7 @@ export const BoardSpeedDial = () => {
             background: "#FF3333",
           },
         }}
-        icon={<SpeedDialIcon sx={{}} />}
+        icon={<SpeedDialIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}

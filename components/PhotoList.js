@@ -1,28 +1,50 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { Grid, IconButton, ImageListItemBar } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import Pagination from "@mui/material/Pagination";
+import { NameLetter } from "./NameLetter";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const style = {
-  "&:hover": {
-    "& .MuiImageListItemBar-root": {
-      display: "flex",
-      background: "rgba(255, 255, 0, 0.54)",
-    },
+  "& .spanner": { visibility: "hidden" },
+  "& .MuiImageListItem-root:hover": {
     cursor: "pointer",
+    "& .spanner": {
+      visibility: "visible",
+    },
+  },
+  "& .MuiImageListItemBar-title": {
+    color: "black",
+  },
+  "& .PhotographerName:hover": {
+    color: "#FF3333",
   },
 };
 
 export const PhotoList = (props) => {
-  const { listOfPhotos, ...other } = props;
+  const {
+    listOfPhotos,
+    numPhotosPerPage,
+    setViewablePhotos,
+    getCuratedPhotos,
+    ...other
+  } = props;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const changePage = (e, pageNumber) => {
+    setCurrentPage(pageNumber);
+    getCuratedPhotos(numPhotosPerPage, pageNumber, setViewablePhotos);
+  };
+
   return (
     <Box sx={{ paddingLeft: "10%", paddingRight: "10%", paddingTop: "90px" }}>
-      <ImageList variant="masonry" cols={4} gap={12}>
+      <ImageList variant="masonry" cols={4} gap={12} sx={style}>
         {listOfPhotos.map((photo) => (
-          <ImageListItem key={photo.id} sx={style}>
+          <ImageListItem key={photo.id}>
             <img
               style={{ borderRadius: "30px" }}
               src={`${photo.src.large2x}?w=500&fit=crop&auto=format`}
@@ -30,32 +52,65 @@ export const PhotoList = (props) => {
               alt={photo.url}
               loading="lazy"
             />
-            <ImageListItemBar
-              style={{
-                borderBottomLeftRadius: "30px",
-                borderBottomRightRadius: "30px",
-                padding: "10px",
-              }}
-              title={photo.photographer}
-              subtitle={photo.photographer_url}
-              actionIcon={
-                <IconButton
-                  sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                  aria-label={`info about ${photo.photographer}`}
-                >
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
+            <span class="spanner">
+              <ImageListItemBar
+                style={{
+                  borderBottomLeftRadius: "29px",
+                  borderBottomRightRadius: "29px",
+                  boxShadow: "0px 5px 5px 0 rgba(0, 0, 0, 0.2)",
+                  padding: "25px 20px 15px 5px",
+                  background:
+                    "linear-gradient(0deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,0.65) 35%, rgba(255,255,255,0) 100%)",
+                }}
+                title={
+                  <Grid container alignItems="center">
+                    <NameLetter
+                      name={photo.photographer[0]}
+                      color={photo.avg_color}
+                    />
+                    <a href={photo.photographer_url} class="PhotographerName">
+                      {photo.photographer}
+                    </a>
+                  </Grid>
+                }
+                actionIcon={
+                  <>
+                    <IconButton
+                      sx={{ color: "rgba(0, 0, 0, 0.4)" }}
+                      aria-label={`info about ${photo.photographer}`}
+                    >
+                      <FavoriteIcon />
+                    </IconButton>
+                    <IconButton
+                      sx={{ color: "rgba(0, 0, 0, 1)" }}
+                      aria-label={`info about ${photo.photographer}`}
+                    >
+                      <DownloadIcon />
+                    </IconButton>
+                  </>
+                }
+              />
+            </span>
           </ImageListItem>
         ))}
       </ImageList>
+      {/* Pagination Component */}
+
       <Grid container justifyContent="center" sx={{ paddingBottom: "20px" }}>
         <Grid item>
           <Pagination
             count={10}
+            color="secondary"
+            onChange={changePage}
             sx={{
-              "& .Mui-selected": { color: "white", backgroundColor: "#FF3333" },
+              "& .MuiPaginationItem-root.Mui-selected": {
+                color: "#FFFFFF ",
+                backgroundColor: "#FF3333",
+              },
+              "& .MuiPaginationItem-root.Mui-selected:hover": {
+                color: "#FFFFFF",
+                backgroundColor: "#DF2C2C",
+              },
             }}
             size="large"
           />
@@ -64,66 +119,3 @@ export const PhotoList = (props) => {
     </Box>
   );
 };
-
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1549388604-817d15aa0110",
-    title: "Bed",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1525097487452-6278ff080c31",
-    title: "Books",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6",
-    title: "Sink",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1563298723-dcfebaa392e3",
-    title: "Kitchen",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1588436706487-9d55d73a39e3",
-    title: "Blinds",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1574180045827-681f8a1a9622",
-    title: "Chairs",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1530731141654-5993c3016c77",
-    title: "Laptop",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1481277542470-605612bd2d61",
-    title: "Doors",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7",
-    title: "Coffee",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee",
-    title: "Storage",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62",
-    title: "Candle",
-    author: "@rollelflex_graphy726",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4",
-    title: "Coffee table",
-    author: "@rollelflex_graphy726",
-  },
-];

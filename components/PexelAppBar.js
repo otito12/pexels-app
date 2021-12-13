@@ -59,7 +59,7 @@ export const PexelAppBar = () => {
               fontSize: "25px",
             }}
           >
-            ROKT - PEXEL
+            <strong>ROKT - PEXEL</strong>
           </Typography>
         </Toolbar>
       </AppBar>

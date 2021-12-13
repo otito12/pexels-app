@@ -7,15 +7,11 @@ import Components from "../components/Components";
 
 const Home = ({ data }) => {
   const [viewablePhotos, setViewablePhotos] = useState(data);
-  const [numPhotos, setnumPhotos] = useState(10);
+  const [numPhotosPerPage, setnumPhotos] = useState(10);
 
   const getCuratedPhotos = async () => {
-    curatedImages.getCuratedPhoto(numPhotos, setViewablePhotos);
+    curatedImages.getCuratedPhoto(numPhotosPerPage, 1, setViewablePhotos);
   };
-
-  useEffect(() => {
-    getCuratedPhotos();
-  }, []);
 
   return (
     <div>
@@ -23,6 +19,9 @@ const Home = ({ data }) => {
       <Components.BoardSpeedDial></Components.BoardSpeedDial>
       <Components.PhotoList
         listOfPhotos={viewablePhotos}
+        numPhotosPerPage={numPhotosPerPage}
+        getCuratedPhotos={curatedImages.getCuratedPhoto}
+        setViewablePhotos={setViewablePhotos}
       ></Components.PhotoList>
     </div>
   );
