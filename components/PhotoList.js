@@ -46,14 +46,14 @@ export const PhotoList = (props) => {
   };
 
   return (
-    <Box sx={{ paddingLeft: "10%", paddingRight: "10%", paddingTop: "90px" }}>
-      <ImageList variant="masonry" cols={4} gap={12} sx={style}>
+    <Box sx={{ paddingLeft: "1%", paddingRight: "1%", paddingTop: "90px" }}>
+      <ImageList variant="masonry" cols={5} gap={12} sx={style}>
         {listOfPhotos.map((photo) => (
           <ImageListItem key={photo.id}>
             <img
               style={{ borderRadius: "30px" }}
-              src={`${photo.src.large2x}?w=500&fit=crop&auto=format`}
-              srcSet={`${photo.src.large2x}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              src={`${photo.src.large}?w=500&fit=crop&auto=format`}
+              srcSet={`${photo.src.large}?w=248&fit=crop&auto=format&dpr=2 2x`}
               alt={photo.url}
               loading="lazy"
             />

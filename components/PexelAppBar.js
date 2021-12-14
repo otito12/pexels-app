@@ -10,10 +10,12 @@ import { Grid, InputBase } from "@mui/material";
 import Link from "next/link";
 import { viewablePhotosContext } from "../contexts/viewablePhotos";
 import curatedImages from "../services/curated_images";
+import { useRouter } from "next/router";
 
 export const PexelAppBar = (props) => {
   const { setViewablePhotos, pageNumber, setPageNumber, setSearchQuery } =
     useContext(viewablePhotosContext);
+  const router = useRouter();
 
   const handleSearch = (e) => {
     if (e.keyCode == 13) {
@@ -21,8 +23,10 @@ export const PexelAppBar = (props) => {
       curatedImages.getSearch(10, 1, e.target.value, setViewablePhotos);
       setSearchQuery(e.target.value);
       setPageNumber(1);
+      router.push("/");
     }
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar

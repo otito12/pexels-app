@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const BoardSpeedDial = () => {
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleClick = (e, path) => {
@@ -49,8 +49,15 @@ export const BoardSpeedDial = () => {
       }}
     >
       <SpeedDial
-        ariaLabel="SpeedDial uncontrolled open example"
-        sx={{}}
+        ariaLabel="SpeedDial"
+        sx={{
+          position: "fixed",
+          bottom: 16,
+          right: 16,
+          "& .MuiButtonBase-root": {
+            background: "#FF3333",
+          },
+        }}
         className={open ? classes.open : classes.closed}
         icon={<SpeedDialIcon />}
         onClose={handleClose}

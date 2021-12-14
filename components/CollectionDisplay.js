@@ -30,7 +30,7 @@ export const CollectionDisplay = (props) => {
   const { listOfPhotos, updateLikedList } = props;
   console.log(listOfPhotos);
   return (
-    <Box sx={{ paddingLeft: "10%", paddingRight: "10%", paddingTop: "105px" }}>
+    <Box sx={{ paddingLeft: "1%", paddingRight: "1%", paddingTop: "105px" }}>
       <Typography align="center" variant="h4">
         <strong>Liked Photos</strong>
       </Typography>
@@ -40,7 +40,7 @@ export const CollectionDisplay = (props) => {
         </Typography>
       )}
 
-      <ImageList variant="masonry" cols={4} gap={12} sx={style}>
+      <ImageList variant="masonry" cols={5} gap={12} sx={style}>
         {listOfPhotos.map((photo) => (
           <ImageListItem key={photo.id}>
             <img
