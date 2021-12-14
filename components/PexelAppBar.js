@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Grid, InputBase } from "@mui/material";
+import Link from "next/link";
 
 export const PexelAppBar = () => {
   return (
@@ -22,13 +23,35 @@ export const PexelAppBar = () => {
       >
         <Grid
           container
+          direction="row"
+          justifyContent="space-between"
           sx={{
             position: "fixed",
-            justifyContent: "center",
-            zIndex: "100",
+            zIndex: "1",
           }}
         >
-          <Grid item xs={5}>
+          <Grid item xs={1.6}>
+            <Link href="/">
+              <Typography
+                variant="h6"
+                component="div"
+                align="center"
+                sx={{
+                  background: "#FF3333",
+                  padding: "10px 40px 10px 40px",
+                  borderRadius: "5px",
+                  marginLeft: "10%",
+                  fontSize: "1vw",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                <strong>ROKT - PEXEL</strong>
+              </Typography>
+            </Link>
+          </Grid>
+          <Grid item xs={4}>
             <InputBase
               startAdornment={<SearchIcon />}
               endAdornment={<SettingsIcon />}
@@ -46,22 +69,9 @@ export const PexelAppBar = () => {
               }}
             />
           </Grid>
+          <Grid item xs={1.6}></Grid>
         </Grid>
-        <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              background: "#FF3333",
-              padding: "10px 40px 10px 40px",
-              borderRadius: "5px",
-              marginLeft: "5%",
-              fontSize: "25px",
-            }}
-          >
-            <strong>ROKT - PEXEL</strong>
-          </Typography>
-        </Toolbar>
+        <Toolbar></Toolbar>
       </AppBar>
     </Box>
   );

@@ -31,17 +31,17 @@ const getCuratedPhotos = async (
     // check if current page and photos per page within bounds of all photos
     // set viewable photos for those indexes
     console.log("Not-Reloading");
-    console.log("LoadRange:",loadRange);
+    console.log("LoadRange:", loadRange);
     console.log("PageNumber", pageNumber);
     console.log(allPhotos.length);
-    console.log("Loaded Slice",
-      [(pageNumber - loadRange[0]) * numPerPage ,
-      (pageNumber - loadRange[0]) * numPerPage + (numPerPage -1)]
-    );
+    console.log("Loaded Slice", [
+      (pageNumber - loadRange[0]) * numPerPage,
+      (pageNumber - loadRange[0]) * numPerPage + numPerPage,
+    ]);
     setViewablePhotos(
       allPhotos.slice(
-        (pageNumber - loadRange[0]) * numPerPage ,
-            (pageNumber - loadRange[0]) * numPerPage + (numPerPage -1)
+        (pageNumber - loadRange[0]) * numPerPage,
+        (pageNumber - loadRange[0]) * numPerPage + numPerPage
       )
     );
     console.log(allPhotos[0].id);
@@ -60,12 +60,12 @@ const getCuratedPhotos = async (
     }
     loadRange = [leftIndex, rightIndex];
     console.log("Reloading");
-    console.log("LoadRange:",loadRange);
+    console.log("LoadRange:", loadRange);
     console.log("PageNumber", pageNumber);
-    console.log("Loaded Slice",
-      [(pageNumber - loadRange[0]) * numPerPage ,
-      (pageNumber - loadRange[0]) * numPerPage + (numPerPage -1)]
-    );
+    console.log("Loaded Slice", [
+      (pageNumber - loadRange[0]) * numPerPage,
+      (pageNumber - loadRange[0]) * numPerPage + numPerPage,
+    ]);
     return client.photos
       .curated({ page: leftIndex, per_page: 50 })
       .then((photos) => {
@@ -74,8 +74,8 @@ const getCuratedPhotos = async (
         // pageNumber-leftIndex
         setViewablePhotos(
           allPhotos.slice(
-            (pageNumber - loadRange[0]) * numPerPage ,
-            (pageNumber - loadRange[0]) * numPerPage + (numPerPage -1)
+            (pageNumber - loadRange[0]) * numPerPage,
+            (pageNumber - loadRange[0]) * numPerPage + numPerPage
           )
         );
       });
@@ -83,7 +83,7 @@ const getCuratedPhotos = async (
 };
 
 const curatedPhotoService = {
-  getCuratedPhoto: getCuratedPhotos,
+  getCuratedPhotos,
 };
 
 export default curatedPhotoService;

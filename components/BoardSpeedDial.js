@@ -3,23 +3,44 @@ import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
-import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
-import SaveIcon from "@mui/icons-material/Save";
-import PrintIcon from "@mui/icons-material/Print";
-import ShareIcon from "@mui/icons-material/Share";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { makeStyles } from "@mui/styles";
+import { useRouter } from "next/router";
 
 const actions = [
-  { icon: <FileCopyIcon sx={{ color: "white" }} />, name: "Copy" },
-  { icon: <SaveIcon sx={{ color: "white" }} />, name: "Save" },
-  { icon: <PrintIcon sx={{ color: "white" }} />, name: "Print" },
-  { icon: <ShareIcon sx={{ color: "white" }} />, name: "Share" },
-  { icon: <ShareIcon sx={{ color: "white" }} />, name: "Share" },
+  { icon: <FavoriteIcon sx={{ color: "white" }} />, name: "Liked Photos" },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  open: {
+    position: "fixed",
+    bottom: 16,
+    right: 16,
+    "& .MuiButtonBase-root": {
+      background: "#FF3333",
+    },
+  },
+  closed: {
+    position: "fixed",
+    bottom: 16,
+    right: 16,
+    "& .MuiButtonBase-root": {
+      background: "#FF3333",
+    },
+  },
+}));
+
 export const BoardSpeedDial = () => {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleClick = (e, path) => {
+    e.preventDefault();
+    router.push(path);
+  };
+
+  const classes = useStyles();
 
   return (
     <Box
@@ -29,14 +50,8 @@ export const BoardSpeedDial = () => {
     >
       <SpeedDial
         ariaLabel="SpeedDial uncontrolled open example"
-        sx={{
-          position: "fixed",
-          bottom: 16,
-          right: 16,
-          "& .MuiButtonBase-root": {
-            background: "#FF3333",
-          },
-        }}
+        sx={{}}
+        className={open ? classes.open : classes.closed}
         icon={<SpeedDialIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
@@ -47,7 +62,7 @@ export const BoardSpeedDial = () => {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
-            onClick={handleClose}
+            onClick={(e) => handleClick(e, "/likedPhotos")}
           />
         ))}
       </SpeedDial>

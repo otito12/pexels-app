@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import { Grid, IconButton, ImageListItemBar } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import Pagination from "@mui/material/Pagination";
-import { NameLetter } from "./NameLetter";
-import DownloadIcon from "@mui/icons-material/Download";
+import {
+  Grid,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Typography,
+} from "@mui/material";
+import { Box } from "@mui/system";
+import React from "react";
 import { LikeButton } from "./LikeButton";
+import { NameLetter } from "./NameLetter";
 
 const style = {
   "& .spanner": { visibility: "hidden" },
@@ -25,23 +26,20 @@ const style = {
   },
 };
 
-export const PhotoList = (props) => {
-  const {
-    listOfPhotos,
-    numPhotosPerPage,
-    setViewablePhotos,
-    getCuratedPhotos,
-    ...other
-  } = props;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const changePage = (e, pageNumber) => {
-    setCurrentPage(pageNumber);
-    getCuratedPhotos(numPhotosPerPage, pageNumber, setViewablePhotos);
-  };
-
+export const CollectionDisplay = (props) => {
+  const { listOfPhotos, updateLikedList } = props;
+  console.log(listOfPhotos);
   return (
-    <Box sx={{ paddingLeft: "10%", paddingRight: "10%", paddingTop: "90px" }}>
+    <Box sx={{ paddingLeft: "10%", paddingRight: "10%", paddingTop: "105px" }}>
+      <Typography align="center" variant="h4">
+        <strong>Liked Photos</strong>
+      </Typography>
+      {listOfPhotos.length <= 0 && (
+        <Typography align="center" variant="subtitle1">
+          <strong>No Liked Photos :(</strong>
+        </Typography>
+      )}
+
       <ImageList variant="masonry" cols={4} gap={12} sx={style}>
         {listOfPhotos.map((photo) => (
           <ImageListItem key={photo.id}>
@@ -75,13 +73,7 @@ export const PhotoList = (props) => {
                 }
                 actionIcon={
                   <>
-                    <LikeButton imageId={photo.id} />
-                    {/* <IconButton
-                      sx={{ color: "rgba(0, 0, 0, 1)" }}
-                      aria-label={`info about ${photo.photographer}`}
-                    >
-                      <DownloadIcon />
-                    </IconButton> */}
+                    <LikeButton imageId={photo.id} callback={updateLikedList} />
                   </>
                 }
               />
@@ -89,29 +81,6 @@ export const PhotoList = (props) => {
           </ImageListItem>
         ))}
       </ImageList>
-      {/* Pagination Component */}
-
-      <Grid container justifyContent="center" sx={{ paddingBottom: "20px" }}>
-        <Grid item>
-          {/* {currentPage} */}
-          <Pagination
-            count={10}
-            color="secondary"
-            onChange={changePage}
-            sx={{
-              "& .MuiPaginationItem-root.Mui-selected": {
-                color: "#FFFFFF ",
-                backgroundColor: "#FF3333",
-              },
-              "& .MuiPaginationItem-root.Mui-selected:hover": {
-                color: "#FFFFFF",
-                backgroundColor: "#DF2C2C",
-              },
-            }}
-            size="large"
-          />
-        </Grid>
-      </Grid>
     </Box>
   );
 };
