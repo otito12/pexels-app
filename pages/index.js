@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import Components from "../components/Components";
 import Link from "next/link";
 
-const Home = ({ data }) => {
+const Home = (props) => {
   const [viewablePhotos, setViewablePhotos] = useState([]);
   const [numPhotosPerPage, setnumPhotos] = useState(10);
 
   useEffect(() => {
-    curatedImages.getCuratedPhotos(10, 1, setViewablePhotos);
+    curatedImages.getCuratedPhotos(10, 1, "", setViewablePhotos);
   }, []);
 
   return (

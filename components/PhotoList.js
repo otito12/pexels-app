@@ -27,6 +27,7 @@ const style = {
 
 export const PhotoList = (props) => {
   const {
+    query,
     listOfPhotos,
     numPhotosPerPage,
     setViewablePhotos,
@@ -37,7 +38,7 @@ export const PhotoList = (props) => {
 
   const changePage = (e, pageNumber) => {
     setCurrentPage(pageNumber);
-    getCuratedPhotos(numPhotosPerPage, pageNumber, setViewablePhotos);
+    getCuratedPhotos(numPhotosPerPage, pageNumber, query, setViewablePhotos);
   };
 
   return (

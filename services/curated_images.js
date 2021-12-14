@@ -9,24 +9,41 @@ let loadRange = [1, 5];
 const getCuratedPhotos = async (
   numPerPage = 10,
   pageNumber = 1,
+  query = "",
   setViewablePhotos = (x) => {}
 ) => {
   if (allPhotos.length === 0) {
     // check if there are no photos in the allPhotos array
-    console.log(loadRange);
-    return client.photos
-      .curated({ page: pageNumber, per_page: 50 })
-      .then((photos) => {
-        allPhotos = photos.photos;
-        setViewablePhotos(
-          allPhotos.slice(
-            pageNumber * numPerPage - numPerPage,
-            pageNumber * numPerPage
-          )
-        );
-        // just to force SSR
-        return allPhotos.slice(0, 10);
-      });
+    if (query && query.length > 0) {
+      client.photos
+        .search({ query, page: pageNumber, per_page: 50 })
+        .then((photos) => {
+          allPhotos = photos.photos;
+          setViewablePhotos(
+            allPhotos.slice(
+              pageNumber * numPerPage - numPerPage,
+              pageNumber * numPerPage
+            )
+          );
+          // just to force SSR
+          return allPhotos.slice(0, 10);
+        });
+    } else {
+      console.log(loadRange);
+      return client.photos
+        .curated({ page: pageNumber, per_page: 50 })
+        .then((photos) => {
+          allPhotos = photos.photos;
+          setViewablePhotos(
+            allPhotos.slice(
+              pageNumber * numPerPage - numPerPage,
+              pageNumber * numPerPage
+            )
+          );
+          // just to force SSR
+          return allPhotos.slice(0, 10);
+        });
+    }
   } else if (pageNumber >= loadRange[0] && pageNumber <= loadRange[1]) {
     // check if current page and photos per page within bounds of all photos
     // set viewable photos for those indexes
@@ -66,19 +83,31 @@ const getCuratedPhotos = async (
       (pageNumber - loadRange[0]) * numPerPage,
       (pageNumber - loadRange[0]) * numPerPage + numPerPage,
     ]);
-    return client.photos
-      .curated({ page: leftIndex, per_page: 50 })
-      .then((photos) => {
-        allPhotos = photos.photos;
-        // load range and page number normalize slice 0-49
-        // pageNumber-leftIndex
-        setViewablePhotos(
-          allPhotos.slice(
-            (pageNumber - loadRange[0]) * numPerPage,
-            (pageNumber - loadRange[0]) * numPerPage + numPerPage
-          )
-        );
-      });
+    if (query && query.length > 0) {
+      client.photos
+        .search({ query, page: pageNumber, per_page: 50 })
+        .then((photos) => {
+          allPhotos = photos.photos;
+          setViewablePhotos(
+            allPhotos.slice(
+              (pageNumber - loadRange[0]) * numPerPage,
+              (pageNumber - loadRange[0]) * numPerPage + numPerPage
+            )
+          );
+        });
+    } else {
+      return client.photos
+        .curated({ page: leftIndex, per_page: 50 })
+        .then((photos) => {
+          allPhotos = photos.photos;
+          setViewablePhotos(
+            allPhotos.slice(
+              (pageNumber - loadRange[0]) * numPerPage,
+              (pageNumber - loadRange[0]) * numPerPage + numPerPage
+            )
+          );
+        });
+    }
   }
 };
 

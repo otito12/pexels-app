@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,8 +8,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Grid, InputBase } from "@mui/material";
 import Link from "next/link";
+import CollectionsService from "../services/collections";
 
 export const PexelAppBar = () => {
+  const handleSearch = (e) => {
+    if (e.keyCode == 13) {
+      alert(`Run Search on ${e.target.value}`);
+    }
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -56,6 +62,7 @@ export const PexelAppBar = () => {
               startAdornment={<SearchIcon />}
               endAdornment={<SettingsIcon />}
               placeholder="Search..."
+              onKeyDown={handleSearch}
               sx={{
                 background: "white",
                 width: "100%",
