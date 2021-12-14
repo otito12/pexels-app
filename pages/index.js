@@ -1,3 +1,4 @@
+import Head from "next/head";
 import curatedImages from "../services/curated_images";
 import { useEffect, useState, useContext } from "react";
 import Components from "../components/Components";
@@ -16,6 +17,9 @@ const Home = (props) => {
 
   return (
     <div>
+      <Head>
+        <title>Home</title>
+      </Head>
       <Components.PhotoList
         listOfPhotos={viewablePhotos}
         numPhotosPerPage={numPhotosPerPage}

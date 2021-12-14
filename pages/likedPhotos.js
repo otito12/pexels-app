@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useState } from "react";
 import Components from "../components/Components";
 import CollectionsService from "../services/collections";
@@ -12,10 +13,15 @@ const likedPhotos = (props) => {
   };
 
   return (
-    <Components.CollectionDisplay
-      listOfPhotos={likedList}
-      updateLikedList={updateLikedList}
-    ></Components.CollectionDisplay>
+    <>
+      <Head>
+        <title>Liked Photos</title>
+      </Head>
+      <Components.CollectionDisplay
+        listOfPhotos={likedList}
+        updateLikedList={updateLikedList}
+      ></Components.CollectionDisplay>
+    </>
   );
 };
 

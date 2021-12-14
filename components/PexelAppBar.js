@@ -19,7 +19,6 @@ export const PexelAppBar = (props) => {
 
   const handleSearch = (e) => {
     if (e.keyCode == 13) {
-      console.log(`Run Search on ${e.target.value}`);
       curatedImages.getSearch(10, 1, e.target.value, setViewablePhotos);
       setSearchQuery(e.target.value);
       setPageNumber(1);

@@ -1,7 +1,8 @@
 import { createClient } from "pexels";
-const client = createClient(
-  "563492ad6f9170000100000122e0b00db34542919901186d1593eff8"
-);
+const key = process.env.API_KEY;
+// there is a bug with the createClient that does not allow process.env.API_KEY to create the client
+// go ahead and insert your api key as a string
+const client = createClient("API_KEY as string");
 
 let allPhotos = [];
 let loadRange = [1, 5];
@@ -50,7 +51,6 @@ const getCuratedPhotos = async (
 ) => {
   if (allPhotos.length === 0) {
     // check if there are no photos in the allPhotos array
-    console.log(loadRange);
     return client.photos
       .curated({ page: pageNumber, per_page: 50 })
       .then((photos) => {
@@ -67,15 +67,6 @@ const getCuratedPhotos = async (
   } else if (pageNumber >= loadRange[0] && pageNumber <= loadRange[1]) {
     // check if current page and photos per page within bounds of all photos
     // set viewable photos for those indexes
-    console.log("Not-Reloading");
-    console.log("LoadRange:", loadRange);
-    console.log("PageNumber", pageNumber);
-    console.log(allPhotos.length);
-    console.log("Loaded Slice", [
-      (pageNumber - loadRange[0]) * numPerPage,
-      (pageNumber - loadRange[0]) * numPerPage + numPerPage,
-    ]);
-    // -----------------End Logs----------//
 
     setViewablePhotos(
       allPhotos.slice(
@@ -97,18 +88,8 @@ const getCuratedPhotos = async (
       rightIndex = 10;
     }
     loadRange = [leftIndex, rightIndex];
-    //--------------Logs-----------------//
-    console.log("Reloading");
-    console.log("LoadRange:", loadRange);
-    console.log("PageNumber", pageNumber);
-    console.log("Loaded Slice", [
-      (pageNumber - loadRange[0]) * numPerPage,
-      (pageNumber - loadRange[0]) * numPerPage + numPerPage,
-    ]);
-    console.log(query);
-    //-------------endlogs---------------//
+
     if (query && query.length > 0) {
-      console.log(`I AM QUERY ${query}`);
       client.photos
         .search({ query, page: pageNumber, per_page: 50 })
         .then((photos) => {

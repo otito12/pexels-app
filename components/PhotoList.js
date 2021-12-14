@@ -40,7 +40,6 @@ export const PhotoList = (props) => {
   );
 
   const changePage = (e, pageNum) => {
-    console.log(`In Photolisr ${searchQuery}`);
     getCuratedPhotos(numPhotosPerPage, pageNum, searchQuery, setViewablePhotos);
     setPageNumber(pageNum);
   };

@@ -1,7 +1,8 @@
 import { createClient } from "pexels";
-const client = createClient(
-  "563492ad6f9170000100000122e0b00db34542919901186d1593eff8"
-);
+const key = process.env.API_KEY;
+// there is a bug with the createClient that does not allow process.env.API_KEY to create the client
+// go ahead and insert your api key as a string
+const client = createClient("API_KEY as string");
 
 const collectionsDb = {
   likedImages: {},
@@ -12,7 +13,6 @@ const addImageToCollecitonById = (collectionId, imageId) => {
     if (collectionId in collectionsDb) {
       if (!(photo.id in collectionsDb[collectionId])) {
         collectionsDb[collectionId][photo.id] = photo;
-        console.log(collectionsDb);
       }
     }
   });
@@ -22,7 +22,6 @@ const removeImageFromCollecitonById = (collectionId, imageId) => {
   if (collectionId in collectionsDb) {
     if (imageId in collectionsDb[collectionId]) {
       delete collectionsDb[collectionId][imageId];
-      console.log(collectionsDb);
     }
   }
 };
@@ -33,7 +32,6 @@ const getCollectionByID = (collectionId) => {
     for (const i in collectionsDb[collectionId]) {
       finalCollection.push(collectionsDb[collectionId][i]);
     }
-    console.log(finalCollection);
     return finalCollection;
   }
 };

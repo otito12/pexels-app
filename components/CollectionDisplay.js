@@ -28,7 +28,6 @@ const style = {
 
 export const CollectionDisplay = (props) => {
   const { listOfPhotos, updateLikedList } = props;
-  console.log(listOfPhotos);
   return (
     <Box sx={{ paddingLeft: "1%", paddingRight: "1%", paddingTop: "105px" }}>
       <Typography align="center" variant="h4">
