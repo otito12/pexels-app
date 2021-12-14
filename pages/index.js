@@ -1,11 +1,14 @@
 import curatedImages from "../services/curated_images";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Components from "../components/Components";
-import Link from "next/link";
+import { viewablePhotosContext } from "../contexts/viewablePhotos";
 
 const Home = (props) => {
-  const [viewablePhotos, setViewablePhotos] = useState([]);
+  const { pageProps } = props;
   const [numPhotosPerPage, setnumPhotos] = useState(10);
+  const { viewablePhotos, setViewablePhotos } = useContext(
+    viewablePhotosContext
+  );
 
   useEffect(() => {
     curatedImages.getCuratedPhotos(10, 1, "", setViewablePhotos);

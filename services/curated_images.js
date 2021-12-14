@@ -6,6 +6,42 @@ const client = createClient(
 let allPhotos = [];
 let loadRange = [1, 5];
 
+const getSearch = async (
+  numPerPage = 10,
+  pageNumber = 1,
+  query = "",
+  setViewablePhotos = (x) => {}
+) => {
+  if (query && query.length > 0) {
+    client.photos
+      .search({ query, page: pageNumber, per_page: 50 })
+      .then((photos) => {
+        allPhotos = photos.photos;
+        loadRange = [1, 5];
+        setViewablePhotos(
+          allPhotos.slice(
+            pageNumber * numPerPage - numPerPage,
+            pageNumber * numPerPage
+          )
+        );
+        // just to force SSR
+        return allPhotos.slice(0, 10);
+      });
+  } else {
+    client.photos.curated({ page: pageNumber, per_page: 50 }).then((photos) => {
+      allPhotos = photos.photos;
+      setViewablePhotos(
+        allPhotos.slice(
+          pageNumber * numPerPage - numPerPage,
+          pageNumber * numPerPage
+        )
+      );
+      // just to force SSR
+      return allPhotos.slice(0, 10);
+    });
+  }
+};
+
 const getCuratedPhotos = async (
   numPerPage = 10,
   pageNumber = 1,
@@ -14,36 +50,20 @@ const getCuratedPhotos = async (
 ) => {
   if (allPhotos.length === 0) {
     // check if there are no photos in the allPhotos array
-    if (query && query.length > 0) {
-      client.photos
-        .search({ query, page: pageNumber, per_page: 50 })
-        .then((photos) => {
-          allPhotos = photos.photos;
-          setViewablePhotos(
-            allPhotos.slice(
-              pageNumber * numPerPage - numPerPage,
-              pageNumber * numPerPage
-            )
-          );
-          // just to force SSR
-          return allPhotos.slice(0, 10);
-        });
-    } else {
-      console.log(loadRange);
-      return client.photos
-        .curated({ page: pageNumber, per_page: 50 })
-        .then((photos) => {
-          allPhotos = photos.photos;
-          setViewablePhotos(
-            allPhotos.slice(
-              pageNumber * numPerPage - numPerPage,
-              pageNumber * numPerPage
-            )
-          );
-          // just to force SSR
-          return allPhotos.slice(0, 10);
-        });
-    }
+    console.log(loadRange);
+    return client.photos
+      .curated({ page: pageNumber, per_page: 50 })
+      .then((photos) => {
+        allPhotos = photos.photos;
+        setViewablePhotos(
+          allPhotos.slice(
+            pageNumber * numPerPage - numPerPage,
+            pageNumber * numPerPage
+          )
+        );
+        // just to force SSR
+        return allPhotos.slice(0, 10);
+      });
   } else if (pageNumber >= loadRange[0] && pageNumber <= loadRange[1]) {
     // check if current page and photos per page within bounds of all photos
     // set viewable photos for those indexes
@@ -55,13 +75,14 @@ const getCuratedPhotos = async (
       (pageNumber - loadRange[0]) * numPerPage,
       (pageNumber - loadRange[0]) * numPerPage + numPerPage,
     ]);
+    // -----------------End Logs----------//
+
     setViewablePhotos(
       allPhotos.slice(
         (pageNumber - loadRange[0]) * numPerPage,
         (pageNumber - loadRange[0]) * numPerPage + numPerPage
       )
     );
-    console.log(allPhotos[0].id);
     return allPhotos;
   } else if (pageNumber < loadRange[0] || pageNumber > loadRange[1]) {
     // load new Images around the new page
@@ -76,6 +97,7 @@ const getCuratedPhotos = async (
       rightIndex = 10;
     }
     loadRange = [leftIndex, rightIndex];
+    //--------------Logs-----------------//
     console.log("Reloading");
     console.log("LoadRange:", loadRange);
     console.log("PageNumber", pageNumber);
@@ -83,7 +105,10 @@ const getCuratedPhotos = async (
       (pageNumber - loadRange[0]) * numPerPage,
       (pageNumber - loadRange[0]) * numPerPage + numPerPage,
     ]);
+    console.log(query);
+    //-------------endlogs---------------//
     if (query && query.length > 0) {
+      console.log(`I AM QUERY ${query}`);
       client.photos
         .search({ query, page: pageNumber, per_page: 50 })
         .then((photos) => {
@@ -113,6 +138,7 @@ const getCuratedPhotos = async (
 
 const curatedPhotoService = {
   getCuratedPhotos,
+  getSearch,
 };
 
 export default curatedPhotoService;

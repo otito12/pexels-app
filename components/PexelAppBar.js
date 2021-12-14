@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,12 +8,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Grid, InputBase } from "@mui/material";
 import Link from "next/link";
-import CollectionsService from "../services/collections";
+import { viewablePhotosContext } from "../contexts/viewablePhotos";
+import curatedImages from "../services/curated_images";
 
-export const PexelAppBar = () => {
+export const PexelAppBar = (props) => {
+  const { setViewablePhotos, pageNumber, setPageNumber, setSearchQuery } =
+    useContext(viewablePhotosContext);
+
   const handleSearch = (e) => {
     if (e.keyCode == 13) {
-      alert(`Run Search on ${e.target.value}`);
+      console.log(`Run Search on ${e.target.value}`);
+      curatedImages.getSearch(10, 1, e.target.value, setViewablePhotos);
+      setSearchQuery(e.target.value);
+      setPageNumber(1);
     }
   };
   return (

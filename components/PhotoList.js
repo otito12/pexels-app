@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -8,6 +8,7 @@ import Pagination from "@mui/material/Pagination";
 import { NameLetter } from "./NameLetter";
 import DownloadIcon from "@mui/icons-material/Download";
 import { LikeButton } from "./LikeButton";
+import { viewablePhotosContext } from "../contexts/viewablePhotos";
 
 const style = {
   "& .spanner": { visibility: "hidden" },
@@ -27,18 +28,21 @@ const style = {
 
 export const PhotoList = (props) => {
   const {
-    query,
     listOfPhotos,
     numPhotosPerPage,
     setViewablePhotos,
     getCuratedPhotos,
     ...other
   } = props;
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const changePage = (e, pageNumber) => {
-    setCurrentPage(pageNumber);
-    getCuratedPhotos(numPhotosPerPage, pageNumber, query, setViewablePhotos);
+  const { searchQuery, pageNumber, setPageNumber } = useContext(
+    viewablePhotosContext
+  );
+
+  const changePage = (e, pageNum) => {
+    console.log(`In Photolisr ${searchQuery}`);
+    getCuratedPhotos(numPhotosPerPage, pageNum, searchQuery, setViewablePhotos);
+    setPageNumber(pageNum);
   };
 
   return (
@@ -98,6 +102,7 @@ export const PhotoList = (props) => {
           <Pagination
             count={10}
             color="secondary"
+            page={pageNumber}
             onChange={changePage}
             sx={{
               "& .MuiPaginationItem-root.Mui-selected": {
