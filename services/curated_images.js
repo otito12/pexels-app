@@ -2,7 +2,7 @@ import { createClient } from "pexels";
 const key = process.env.API_KEY;
 // there is a bug with the createClient that does not allow process.env.API_KEY to create the client
 // go ahead and insert your api key as a string
-const client = createClient("API_KEY as string");
+const client = createClient("563492ad6f9170000100000122e0b00db34542919901186d1593eff8");
 
 let allPhotos = [];
 let loadRange = [1, 5];
