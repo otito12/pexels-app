@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Components from "../components/Components";
 import CollectionsService from "../services/collections";
 
-const likedPhotos = (props) => {
+const LikedPhotos = (props) => {
   const [likedList, setlikedList] = useState(
     CollectionsService.getCollectionByID("likedImages")
   );
@@ -25,4 +25,4 @@ const likedPhotos = (props) => {
   );
 };
 
-export default likedPhotos;
+export default LikedPhotos;

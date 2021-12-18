@@ -47,7 +47,7 @@ export const PexelAppBar = (props) => {
           }}
         >
           <Grid item xs={1.6}>
-            <Link href="/">
+            <Link href="/" passHref>
               <Typography
                 variant="h6"
                 component="div"

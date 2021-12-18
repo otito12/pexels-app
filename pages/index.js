@@ -13,7 +13,7 @@ const Home = (props) => {
 
   useEffect(() => {
     curatedImages.getCuratedPhotos(10, 1, "", setViewablePhotos);
-  }, []);
+  });
 
   return (
     <div>

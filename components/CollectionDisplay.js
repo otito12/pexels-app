@@ -9,6 +9,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import { LikeButton } from "./LikeButton";
 import { NameLetter } from "./NameLetter";
+import Image from "next/image";
 
 const style = {
   "& .spanner": { visibility: "hidden" },
@@ -42,6 +43,14 @@ export const CollectionDisplay = (props) => {
       <ImageList variant="masonry" cols={5} gap={12} sx={style}>
         {listOfPhotos.map((photo) => (
           <ImageListItem key={photo.id}>
+            {/* <Image
+              loader={myLoader}
+              src="me.png"
+              alt="Picture of the author"
+              width={500}
+              height={500}
+            /> */}
+
             <img
               style={{ borderRadius: "30px" }}
               src={`${photo.src.large2x}?w=500&fit=crop&auto=format`}
@@ -49,7 +58,7 @@ export const CollectionDisplay = (props) => {
               alt={photo.url}
               loading="lazy"
             />
-            <span class="spanner">
+            <span className="spanner">
               <ImageListItemBar
                 style={{
                   borderBottomLeftRadius: "29px",
@@ -65,7 +74,10 @@ export const CollectionDisplay = (props) => {
                       name={photo.photographer[0]}
                       color={photo.avg_color}
                     />
-                    <a href={photo.photographer_url} class="PhotographerName">
+                    <a
+                      href={photo.photographer_url}
+                      className="PhotographerName"
+                    >
                       {photo.photographer}
                     </a>
                   </Grid>

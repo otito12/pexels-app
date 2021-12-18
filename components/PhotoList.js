@@ -56,7 +56,7 @@ export const PhotoList = (props) => {
               alt={photo.url}
               loading="lazy"
             />
-            <span class="spanner">
+            <span className="spanner">
               <ImageListItemBar
                 style={{
                   borderBottomLeftRadius: "29px",
@@ -72,7 +72,10 @@ export const PhotoList = (props) => {
                       name={photo.photographer[0]}
                       color={photo.avg_color}
                     />
-                    <a href={photo.photographer_url} class="PhotographerName">
+                    <a
+                      href={photo.photographer_url}
+                      className="PhotographerName"
+                    >
                       {photo.photographer}
                     </a>
                   </Grid>
